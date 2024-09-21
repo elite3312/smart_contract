@@ -16,10 +16,22 @@ contract SimpleStorage {
     }
 
     //increment 
-    function inc() public {
+    function inc_bad() public {
         //perform operations on the state var is expensive
+        num+=1;
+        num+=1;
+        num+=1;
         num+=1;
     }
 
+    function inc_good() public {
+        //perform operations on the state var is expensive
+        uint256 local_num=num;
+        local_num+=1;
+        local_num+=1;
+        local_num+=1;
+        local_num+=1;
+        num=local_num;
+    }
 
 }
