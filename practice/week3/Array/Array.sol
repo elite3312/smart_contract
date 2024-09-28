@@ -28,9 +28,11 @@ contract Array {
     function pop() public {
         // Remove last element from array
         // This will decrease the array length by 1
-        arr.pop();
+        arr.pop();//popping from an empty array will throw an exception
     }
-
+    //function pop_from_fixed() public {
+    //    myFixedSizeArr.pop(); this is wrong
+    //}
     function getLength() public view returns (uint256) {
         return arr.length;
     }
@@ -42,7 +44,7 @@ contract Array {
         delete arr[index];
     }
 
-    function examples() external {
+    function examples() public pure {
         // create array in memory, only fixed size can be created
         uint256[] memory a = new uint256[](5);
     }
