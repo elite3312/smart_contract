@@ -22,7 +22,7 @@ contract RentalAgreement {
         require(msg.sender == tenant, "Only the tenant can pay the rent.");
         require(isPaid== false, "Only can pay once a month");
         uint _rentAmount = rentAmount;
-        require( block.timestamp < dueDate); {
+        require( block.timestamp <= dueDate); {
             // Apply penalty
             _rentAmount+=penaltyAmount;
         }

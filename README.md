@@ -40,6 +40,9 @@ remixd
 - the **view** keyword is used when a function does not modify the state variables
 - a function that doesn't read or modify the variables of the state is called a **pure** function.
 
+### contracts
+
+- remember to add ether into contract balance when deploying
 
 ### ABI and bytecode
 
