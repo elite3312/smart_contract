@@ -2,7 +2,7 @@
 
 ## bookmark
 
-ifelse
+modifier
 
 ## setup remix
 
@@ -35,10 +35,28 @@ remixd
 
 - interacting with state variables is expensive in terms of gas, try to minimize this by using local caches.
 
-### syntax
+### keywords
 
 - the **view** keyword is used when a function does not modify the state variables
 - a function that doesn't read or modify the variables of the state is called a **pure** function.
+- **Memory** is used to store temporary data that is needed during the execution of a function. Calldata is used to store function arguments that are passed in from an external caller. Storage is used to store data permanently on the blockchain.
+- **REVERT** will still undo all state changes, but it will be handled differently than an “invalid opcode” in two ways:
+  - It will allow you to return a value.
+  - It will refund any remaining gas to the caller.
+- assert will not refund on failure
+- **interface**就是拿來繼承用的
+- A **modifier** is a special type of function that you use to modify the behavior of other functions. Modifiers allow you to add extra conditions or functionality to a function without having to rewrite the entire function.
+  - the _ symbol
+    - Before Function Execution:
+      require(!locked, "No reentrancy"); checks if the locked variable is false. If locked is true, the function call is rejected with the message “No reentrancy”.
+      locked = true; sets the locked variable to true, indicating that the function is now executing.
+    - Function Body Execution:
+      The _ symbol is where the actual function body is executed. When the function is called, the code inside the function replaces the _ symbol.
+    - After Function Execution:
+      locked = false; sets the locked variable back to false, allowing future calls to the function.
+  - 有點像是幫function打補釘
+- **internal** function就像private method
+- **external** function只能給別人用
 
 ### contracts
 

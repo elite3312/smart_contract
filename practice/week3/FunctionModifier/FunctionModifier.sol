@@ -44,9 +44,9 @@ contract FunctionModifier {
     modifier noReentrancy() {
         require(!locked, "No reentrancy");
 
-        locked = true;
-        _;
-        locked = false;
+        locked = true;//decrement()跑之前做這個
+        _;//做decrement()
+        locked = false;//decrement()跑完做這個
     }
 
     function decrement(uint256 i) public noReentrancy {
