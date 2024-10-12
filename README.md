@@ -2,7 +2,13 @@
 
 ## bookmark
 
+### main 
+
 modifier
+
+### lec 1012
+
+Import
 
 ## setup remix
 
@@ -39,7 +45,14 @@ remixd
 
 - the **view** keyword is used when a function does not modify the state variables
 - a function that doesn't read or modify the variables of the state is called a **pure** function.
-- **Memory** is used to store temporary data that is needed during the execution of a function. Calldata is used to store function arguments that are passed in from an external caller. Storage is used to store data permanently on the blockchain.
+- storage, memory and calldata 
+  - **Memory** is used to store temporary data that is needed during the execution of a function. 
+  - **Calldata** is used to store function arguments that are passed in from an external caller. 
+  - **Storage** is used to store data permanently on the blockchain.
+    - 有點像this.data
+    - In Solidity, storage and state variables are closely related but not exactly the same.
+    - State variables are variables whose values are permanently stored on the blockchain. They are declared outside of functions and are part of the contract’s state
+  - If you don’t use the memory keyword, the variable will be stored in the default storage location, which is the contract’s storage. Variables in storage persist between function calls and transactions, meaning they are not cleared when the function exits. This can lead to higher gas costs and unintended side effects if the data is not meant to be persistent.
 - **REVERT** will still undo all state changes, but it will be handled differently than an “invalid opcode” in two ways:
   - It will allow you to return a value.
   - It will refund any remaining gas to the caller.
@@ -57,6 +70,50 @@ remixd
   - 有點像是幫function打補釘
 - **internal** function就像private method
 - **external** function只能給別人用
+- **fallback** function
+  - In Solidity, a fallback function is a special function that is executed under specific conditions:
+    - When a function that does not exist is called.
+    - When Ether is sent directly to a contract but the receive() function does not exist or msg.data is not empty
+    - The fallback function is defined without a name, parameters, or return values. It is typically used to handle unexpected messages and ensure the contract remains in a valid state3. Here’s a simple example:
+      ```solidity
+            // SPDX-License-Identifier: MIT
+      pragma solidity ^0.8.0;
+
+      contract FallbackExample {
+          event Log(string func, uint256 gas);
+
+          // Fallback function must be declared as external.
+          fallback() external payable {
+              emit Log("fallback", gasleft());
+          }
+
+          // Receive function is a variant of fallback that is triggered when msg.data is empty
+          receive() external payable {
+              emit Log("receive", gasleft());
+          }
+
+          // Helper function to check the balance of this contract
+          function getBalance() public view returns (uint256) {
+              return address(this).balance;
+          }
+      }
+      ```
+      - if there is no fallback function, the transaction will not go through
+- msg.value, msg.sender
+  - msg.value is the amount to send, it is in visible in the LHS of the remix ide
+  - msg.sender is just the address of the sender
+  - msg.data is the data sent
+  - this.balance is the amount of ether a contract has
+- **delegate call**
+  - to use another functions method to update my own data
+    - I (who is using the delegate function) must have exactly the same state variable layout
+  - 用callee反查就好，比較安全
+- payable
+  - anything that receives ether must be payable
+  - if a constructor is not payable, you cannot send ether to balance on creation
+- **new**可以建立別的contract
+- 動態生成其他contract
+  -  之後可以用script deploy
 
 ### contracts
 
@@ -141,3 +198,8 @@ contract SimpleStorage {
   - The COUNT() function returns the number of rows that matches a specified criterion.
   - the where clause limits the result to the most recent 90 days, and no later than today
   - grooup by 1 is to group by the first element of num_blocks, which is DATE_TRUNC('day', time )
+
+  ### ERC
+
+  - IsERC20
+    - 規範token的interface
