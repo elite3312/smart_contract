@@ -201,5 +201,5 @@ contract SimpleStorage {
 
   ### ERC
 
-  - IsERC20
+  - IERC20
     - 規範token的interface
