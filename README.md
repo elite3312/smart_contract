@@ -1,14 +1,15 @@
 # smart_contract
 
+## todo
+
 ## bookmark
 
-### main 
-
-modifier
-
-### lec 1012
-
-Import
+- main 
+  - hotel room
+- lec 1012
+  - Import
+- lec1019
+  - erc20
 
 ## setup remix
 
@@ -36,6 +37,7 @@ remixd
 - the gas limit should be reasonable so that transactions have enough gas to operate
 - if gas limit is reached, transactions will roll back
 - transaction cost- execution cost is the reward given to the validator
+- 1 ether = 10^18 wei
 
 ### state variables
 
@@ -114,10 +116,18 @@ remixd
 - **new**可以建立別的contract
 - 動態生成其他contract
   -  之後可以用script deploy
+- **indexed**
+  - 參數帶indexed表示他會出現在log裡面
+- **emit**
+  - emit用來發事件，可以讓外部收到emit
+- **immutabel**
+  - State variables can be marked immutable which causes them to be read-only, but assignable in the constructor. 
 
-### contracts
+### sending and receiving
 
-- remember to add ether into contract balance when deploying
+- the sender must have a payable method
+  - input the value in the LHS panel 
+- the receiver must have the receive method
 
 ### ABI and bytecode
 
@@ -177,6 +187,42 @@ contract SimpleStorage {
 ]
 ```
 
+
+
+### ERC20
+  
+- IERC20
+  - IERC20 is an interface that defines the standard functions and events that any ERC20 token contract must implement. 
+- ERC20
+  - ERC20 is a contract that implements the IERC20 interface.  
+  - 規範token的interface
+  - mint是無中生有
+  - burn是把token燒掉
+  - if a token has **decimals** set to 18, it means that the token can be divided into (10^{18}) smaller units
+  - approve
+    - 授權別人花自己的token
+    - allowance是一個state variable，紀錄誰授權了誰可以花多少token
+    - 授權給別人的token可以burn掉
+    - 不夠還可以無中生有mint
+- deploying mytoken.sol will generate 100 tokens in total supply
+
+### shared wallet
+
+- only the owner can add or remove owners
+
+### addressbook
+
+- alias一樣也是state var,紀錄誰對誰的alias
+
+### Engllish Auction
+
+- start with bottem price
+
+### IERC721
+
+- NFT
+  - An NFT, or non-fungible token, is a unique digital asset that represents ownership or proof of authenticity of a specific item or piece of content, typically stored on a blockchain. Unlike cryptocurrencies such as Bitcoin or Ethereum, which are fungible and can be exchanged on a one-to-one basis, NFTs are unique and cannot be exchanged on a like-for-like basis.
+
 ## Dune SQL queries
 
 - first step is to find the table name, e.g. **ethereum.transactions**
@@ -198,8 +244,3 @@ contract SimpleStorage {
   - The COUNT() function returns the number of rows that matches a specified criterion.
   - the where clause limits the result to the most recent 90 days, and no later than today
   - grooup by 1 is to group by the first element of num_blocks, which is DATE_TRUNC('day', time )
-
-  ### ERC
-
-  - IERC20
-    - 規範token的interface
