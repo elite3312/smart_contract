@@ -189,7 +189,7 @@ contract SimpleStorage {
 
 
 
-### ERC20
+### ERC20 tokens
   
 - IERC20
   - IERC20 is an interface that defines the standard functions and events that any ERC20 token contract must implement. 
@@ -205,6 +205,7 @@ contract SimpleStorage {
     - 授權給別人的token可以burn掉
     - 不夠還可以無中生有mint
 - deploying mytoken.sol will generate 100 tokens in total supply
+- To verify a single file for deployment on the test net, we can use the flatten option to add all dependencies to a single file.
 
 ### shared wallet
 
@@ -218,10 +219,11 @@ contract SimpleStorage {
 
 - start with bottem price
 
-### IERC721
+### IERC721 NFTs
 
 - NFT
   - An NFT, or non-fungible token, is a unique digital asset that represents ownership or proof of authenticity of a specific item or piece of content, typically stored on a blockchain. Unlike cryptocurrencies such as Bitcoin or Ethereum, which are fungible and can be exchanged on a one-to-one basis, NFTs are unique and cannot be exchanged on a like-for-like basis.
+- 
 
 ## Dune SQL queries
 
