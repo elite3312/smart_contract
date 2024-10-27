@@ -206,6 +206,7 @@ contract SimpleStorage {
     - 不夠還可以無中生有mint
 - deploying mytoken.sol will generate 100 tokens in total supply
 - To verify a single file for deployment on the test net, we can use the flatten option to add all dependencies to a single file.
+  - in remixIDE, right click then click flatten
 
 ### shared wallet
 
@@ -215,15 +216,37 @@ contract SimpleStorage {
 
 - alias一樣也是state var,紀錄誰對誰的alias
 
-### Engllish Auction
-
-- start with bottem price
-
 ### IERC721 NFTs
 
 - NFT
   - An NFT, or non-fungible token, is a unique digital asset that represents ownership or proof of authenticity of a specific item or piece of content, typically stored on a blockchain. Unlike cryptocurrencies such as Bitcoin or Ethereum, which are fungible and can be exchanged on a one-to-one basis, NFTs are unique and cannot be exchanged on a like-for-like basis.
-- 
+- 製作照片的NFT
+  - 寫一個繼承erc721的contract
+  - 上傳照片到IPFS platform, e.g. pinata
+  - publish and verify contract
+  - set the uri to in etherscan when minting
+    - will _setTokenURI(tokenId, uri);
+
+#### Engllish Auction
+
+- bid on NFTs
+- we need to deploy a NFT beforehand
+  - and approve the bidder to sell the nft
+- 我們可以用block.timestamp+2 days設定結束時間
+- bid結束之後，NFT owner 會換人，剩下沒買到的買家需要withdraw
+
+### openzeppelin
+
+- pausable
+  - the owner can pause a contract in case of vulnerability
+
+#### dutch auction
+
+- self destruct will delete an adress
+
+### smart contract oracle
+
+- read data from outside world
 
 ## Dune SQL queries
 
