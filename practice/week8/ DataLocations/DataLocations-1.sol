@@ -17,8 +17,12 @@ contract DataLocations {
 
         // get a struct from a mapping
         MyStruct storage myStruct = myStructs[1];
+        myStruct.foo=123;
         // create a struct in memory
         MyStruct memory myMemStruct = MyStruct(0);
+        
+        myMemStruct.foo=456;
+
     }
 
     function _f(
@@ -32,10 +36,10 @@ contract DataLocations {
 
     // You can return memory variables
     function g(uint256[] memory _arr) public returns (uint256[] memory) {
-        // do something with memory array
+        _arr[0]=0;//this is ok!
     }
 
     function h(uint256[] calldata _arr) external {
-        // do something with calldata array
-    }
+        //_arr[0]=0; this will give error, you cannot modify calldata
+    } 
 }

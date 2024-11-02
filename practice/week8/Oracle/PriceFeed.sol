@@ -5,7 +5,7 @@ import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 contract PriceFeed{
     AggregatorV3Interface internal dataFeed;
     constructor(){
-        dataFeed=AggregatorV3Interface(0x694AA1769357215DE4FAC081bf1f309aDC325306);
+        dataFeed=AggregatorV3Interface(0x694AA1769357215DE4FAC081bf1f309aDC325306);//we need to inject meta mask, and use the testnet
     }
     function getLatestEthPriceInUSD() public view returns(int){
         (,int answer,,,)=dataFeed.latestRoundData();

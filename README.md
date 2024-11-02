@@ -5,7 +5,6 @@
 ## bookmark
 
 - main 
-  - hotel room
 - lec 1012
   - Import
 - lec1019
@@ -50,11 +49,10 @@ remixd
 - storage, memory and calldata 
   - **Memory** is used to store temporary data that is needed during the execution of a function. 
   - **Calldata** is used to store function arguments that are passed in from an external caller. 
-  - **Storage** is used to store data permanently on the blockchain.
-    - 有點像this.data
-    - In Solidity, storage and state variables are closely related but not exactly the same.
-    - State variables are variables whose values are permanently stored on the blockchain. They are declared outside of functions and are part of the contract’s state
-  - If you don’t use the memory keyword, the variable will be stored in the default storage location, which is the contract’s storage. Variables in storage persist between function calls and transactions, meaning they are not cleared when the function exits. This can lead to higher gas costs and unintended side effects if the data is not meant to be persistent.
+    - calldata is readonly
+  - **Storage** 用來指到state var
+    - 如果你把變數宣告成storage，當你用這個變數去指到state variable，你就會改到state variable
+    - 但用memory就改不到
 - **REVERT** will still undo all state changes, but it will be handled differently than an “invalid opcode” in two ways:
   - It will allow you to return a value.
   - It will refund any remaining gas to the caller.
@@ -247,6 +245,36 @@ contract SimpleStorage {
 ### smart contract oracle
 
 - read data from outside world
+
+### Merkle Tree
+
+week8
+
+- example: ![alt text](assets/image.png)
+- the height of the merkle tree does not change 
+- A complete binary tree is another name for the strict binary tree. Only if each node has either 0 or 2 offspring can the tree be regarded as strict binary tree.
+- a path in the merkle tree is addtional info needed to compute the root hash for a particular leaf.
+  - ![alt text](assets/image.png)
+- usally the merkle tree is complete, but nodes appended on the right can be the only child
+- merkle.sol
+  - ![alt text](assets/image2.png)
+  - 期末會考
+
+## DeFi
+
+- stable coin
+  - 用美金買，買的時候mint。贖回的時候burn
+- anonymity is key
+- lending in Defi
+  - give out tokens to burrowers
+- low exchange rate
+- insurance
+  - get external information from outside, then deploy smart contract
+    - the acquiring of external information relies on crowd to provide information, the crowd is rewarded a small amount of ether
+- oracles
+  - get external info
+    - e.g. usd exchange rate <https://docs.chain.link/data-feeds/price-feeds/addresses?network=ethereum&page=1>
+  - pricefeed.sol ![alt text](assets/image3.png)  
 
 ## Dune SQL queries
 

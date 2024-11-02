@@ -18,9 +18,12 @@ contract HashFunction {
         pure
         returns (bytes32)
     {
+        //collision(AAA,BBB)==collision(AA,ABBB), which is bad
+
         // encodePacked(AAA, BBB) -> AAABBB
         // encodePacked(AA, ABBB) -> AAABBB
         return keccak256(abi.encodePacked(_text, _anotherText));
+        //use abi.encode(_text, _anotherText)) instead, it will be different
     }
 }
 
