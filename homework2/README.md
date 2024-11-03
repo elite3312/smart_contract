@@ -14,9 +14,14 @@
 
 ## Problem 2
 
+- proof should be a url
+- Loyalty Tiers:bronze, silver, gold
+- ERC20 tokens are given to regular event participants
+- ERC721 tokens(NFTs) are given to VIPs.
+
 ## Problem 3
 
-- struct aggreement holds details of each rental agreement.
+- struct aggreement holds details for each rental agreement.
 - we use an array to hold multiple aggreements, each can have different landlord and tenants
   - for each aggreement, we use a state variable remaining_duration to record the remaining duration in the lease.
 - only the tenants of each aggreement can pay, and they must pay the exact amount
