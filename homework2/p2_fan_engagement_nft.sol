@@ -49,13 +49,13 @@ contract FanEngagementSystem is ERC20{
     }
 
     function earnTokens(address fan, uint256 amount, string memory activityType, string memory activityProof) public  {
+        /*a fan submits activity for reward tokens*/
         require(amount > 0, "Amount must be greater than zero");
         activityArray[fan].push(Activity(activityType, activityProof, amount, false));
-        
-        
     }
 
     function verifyActivity(address fan, uint256 activityIndex) public onlyOwner {
+        /*the owner can verify a submitted activity and approve some tokens*/
         require(activityIndex < activityArray[fan].length, "Invalid activity index");
         approve( fan, 1 );
         activityArray[fan][activityIndex].verified = true;
@@ -64,6 +64,8 @@ contract FanEngagementSystem is ERC20{
         updateLoyaltyTier(fan);
     }
     function checkNFTEligibility(address fan)  view external returns(bool){
+
+        /*this one is for checking if a fan is eligible for receiving NFT*/
         uint256 true_cnt=0;
         for (uint8 i =0 ;i<activityArray[fan].length;i++)
             if (activityArray[fan][i].verified == true){true_cnt++;}
@@ -118,13 +120,9 @@ contract TopTierNFTIssuance is ERC721URIStorage{
     FanEngagementSystem fs;
    address public owner;
 
-    // Modifier to check that the caller is the owner of
-    // the contract.
+
     modifier onlyOwner() {
         require(msg.sender == owner, "Not owner");
-        // Underscore is a special character only used inside
-        // a function modifier and it tells Solidity to
-        // execute the rest of the code.
         _;
     }
 

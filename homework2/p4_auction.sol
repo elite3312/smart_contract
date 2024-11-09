@@ -42,6 +42,7 @@ contract DecentralizedAuctionHouse is ERC721URIStorage {
         uint256 reservePrice,
         uint256 auctionDuration
     ) public {
+        /*artists can create an NFT and put it up for auction*/
         require(auctionDuration > 0, "Auction duration must be greater than 0");
         auctionCount++;
         auctions[auctionCount] = Auction(
@@ -54,7 +55,7 @@ contract DecentralizedAuctionHouse is ERC721URIStorage {
             false
         );
         _safeMint(owner, auctionCount);
-        _setTokenURI(auctionCount, uri);
+        _setTokenURI(auctionCount, uri);//initially, the artist holds the NFT
 
 
         emit AuctionCreated(
@@ -67,6 +68,7 @@ contract DecentralizedAuctionHouse is ERC721URIStorage {
     }
 
     function placeBid(uint256 auctionId) public payable {
+        /*a bidder places bid, where the bid money is stored in the balance of the contract */
         uint256  bidAmount =msg.value;
         Auction storage auction = auctions[auctionId];
         require(block.timestamp < auction.endTime, "Auction has ended");
@@ -83,6 +85,7 @@ contract DecentralizedAuctionHouse is ERC721URIStorage {
         auction.highestBid = bidAmount;
         bids[auctionId][msg.sender] = bidAmount; // Store the new bid
 
+        /*create a set to keep track of bidders */
         bool has_bid_before=false;
         for (uint256 i=0;i<bidders.length;i++){
             if (bidders[i]==msg.sender)
@@ -97,6 +100,7 @@ contract DecentralizedAuctionHouse is ERC721URIStorage {
     }
 
     function withdrawBid(uint256 auctionId) public {
+        /*a bidder can withdraw his money if he is not the current highest bidder */
         Auction storage auction = auctions[auctionId];
         require(block.timestamp < auction.endTime, "Auction has ended");
         require(
@@ -114,14 +118,15 @@ contract DecentralizedAuctionHouse is ERC721URIStorage {
     }
 
     function finalizeAuction(uint256 auctionId)  public {
+        //artist can end auction after the end time
         require(msg.sender ==  auctions[auctionId].owner, "Not owner");
         Auction storage auction = auctions[auctionId];
-        //require(block.timestamp >= auction.endTime, "Auction is still active");
+        require(block.timestamp >= auction.endTime, "Auction is still active");
         require(!auction.finalized, "Auction already finalized");
 
         auction.finalized = true;
 
-        //refund all buyers who didn't win
+        //refund ether of all buyers who didn't win
         for (uint256 i=0;i<bidders.length;i++){
             uint256 bidAmount=bids[auctionId][bidders[i]];
             if (bidAmount>0 && bidders[i]!=auction.highestBidder )
@@ -131,7 +136,7 @@ contract DecentralizedAuctionHouse is ERC721URIStorage {
 
         if (auction.highestBidder != address(0)) {
             safeTransferFrom( auctions[auctionId].owner, auction.highestBidder, auctionId);//give nft to winner
-            auctions[auctionId].owner.transfer(auction.highestBid); 
+            auctions[auctionId].owner.transfer(auction.highestBid); //artist gets paid
             emit AuctionFinalized(
                 auctionId,
                 auction.highestBidder,

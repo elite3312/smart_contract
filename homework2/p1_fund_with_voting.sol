@@ -38,7 +38,7 @@ contract DecentralizedCharityFund {
         _;
     }
     function donate() external payable {
-        /*msg.sender donates some mony to the fund*/
+        /*msg.sender donates some money to the fund*/
         require(msg.value > 0, "Donation amount must be greater than zero");
         votingPower[msg.sender] += msg.value;
         totalVotingPower += msg.value;
@@ -60,7 +60,7 @@ contract DecentralizedCharityFund {
     }
 
     function voteOnRequest(uint256 requestId) external returns (bool) {
-        /*a person votes on a project*/
+        /*a person votes on a project, where voting weight is proportionate to his donations*/
         require(votingPower[msg.sender] > 0, "No voting power");
         require(!votes[requestId][msg.sender], "Already voted");
         require(!fundingRequests[requestId].finalized, "Request already finalized");

@@ -10,6 +10,10 @@
 - lec1019
   - erc20
 
+## cmds
+
+- zip -r homework2.zip homework2
+
 ## setup remix
 
 ```bash
