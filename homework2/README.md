@@ -35,3 +35,19 @@
 - only the landlord can terminate the aggreement, and to do so the lease must be complete.
   - otherwise, we give the owner of the contract the right to terminate an aggreement in case of violation of aggreement.
   
+## Problem 4
+
+- any artist can create an auction
+  - the nft will be minted and given to the artist
+- buyers can place bids with ether
+  - the bid will be transfer to the balance of the contract in doing so
+- if the buyer is not the highest bidder, he can withdraw his bid.
+- when the auction finishes, the buyer with the highest bid will have his money transfered to the artist.
+  - the artist will transfer the NFT to the buyer.
+  - all other buyers who do not win will have their money refunded
+- debug info
+  
+  ```txt
+  create auction : 0x5B38Da6a701c568545dCfcB03FcB875f56beddC4,catpic,http:meow,1,100000
+  place bid : 1
+  ```
