@@ -280,6 +280,7 @@ week8
 
 - in remix, there is a unit test plugin
 - it will generate boilerplate for a solidity file
+- final exam不考javascript
 
 ## Dune SQL queries
 

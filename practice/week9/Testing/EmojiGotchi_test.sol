@@ -9,16 +9,20 @@ import "remix_tests.sol";
 // Although it may fail compilation in 'Solidity Compiler' plugin
 // But it will work fine in 'Solidity Unit Testing' plugin
 import "remix_accounts.sol";
-import "../EmojiGotchi.sol";
+import "./EmojiGotchi.sol";
 
 // File name has to end with '_test.sol', this file can contain more than one testSuite contracts
 contract testSuite {
 
     EmojiGotchi emojiGotchi;
 
-
+    address acc0;
+    address acc2;
     function beforeAll() public {
         emojiGotchi = new EmojiGotchi();
+        acc0=TestsAccounts.getAccount(0);
+        
+        acc2=TestsAccounts.getAccount(2);
     }
 
     function testInitialNameAndSymbol() public {
@@ -30,18 +34,18 @@ contract testSuite {
     }
 
     function testMinting() public {
-        emojiGotchi.safeMint(address(this));
+        emojiGotchi.safeMint(acc0);
         uint256 tokenId = 0;
 
-        Assert.equal(emojiGotchi.ownerOf(tokenId), address(this), "Owner should be this contract");
+        Assert.equal(emojiGotchi.ownerOf(tokenId), acc0, "Owner should be this contract");
     }
 
     function testTokenIdIncrement() public {
-        emojiGotchi.safeMint(address(this));  // Mint first token
-        emojiGotchi.safeMint(address(this));  // Mint second token
+        emojiGotchi.safeMint(acc0);  // Mint first token
+        emojiGotchi.safeMint(acc2);  // Mint second token
 
-        Assert.equal(emojiGotchi.ownerOf(0), address(this), "Owner of token 0 should be this contract");
-        Assert.equal(emojiGotchi.ownerOf(1), address(this), "Owner of token 1 should be this contract");
+        Assert.equal(emojiGotchi.ownerOf(0), acc0, "Owner of token 0 should be this contract");
+        Assert.equal(emojiGotchi.ownerOf(2), acc2, "Owner of token 1 should be this contract");
     }
     
 }

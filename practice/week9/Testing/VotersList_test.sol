@@ -9,7 +9,8 @@ import "remix_tests.sol";
 // Although it may fail compilation in 'Solidity Compiler' plugin
 // But it will work fine in 'Solidity Unit Testing' plugin
 import "remix_accounts.sol";
-import "../contracts/VotersList.sol";
+//import "../practice/week9/Testing/VotersList.sol";
+import "./VotersList.sol";
 
 // File name has to end with '_test.sol', this file can contain more than one testSuite contracts
 contract VoterListTest is VotersList {
