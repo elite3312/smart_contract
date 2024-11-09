@@ -260,7 +260,7 @@ week8
   - ![alt text](assets/image2.png)
   - 期末會考
 
-## DeFi
+### DeFi
 
 - stable coin
   - 用美金買，買的時候mint。贖回的時候burn
@@ -276,8 +276,14 @@ week8
     - e.g. usd exchange rate <https://docs.chain.link/data-feeds/price-feeds/addresses?network=ethereum&page=1>
   - pricefeed.sol ![alt text](assets/image3.png)  
 
+### unit testing
+
+- in remix, there is a unit test plugin
+- it will generate boilerplate for a solidity file
+
 ## Dune SQL queries
 
+- will not appear in the final exam
 - first step is to find the table name, e.g. **ethereum.transactions**
 
   ```txt

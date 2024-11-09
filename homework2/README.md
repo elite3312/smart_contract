@@ -14,10 +14,17 @@
 
 ## Problem 2
 
-- proof should be a url
-- Loyalty Tiers:bronze, silver, gold
 - ERC20 tokens are given to regular event participants
 - ERC721 tokens(NFTs) are given to VIPs.
+- fans
+  - Loyalty Tiers:bronze, silver, gold
+- activity
+  - proof should be a url
+  - associated with a token amount 
+  - fan user can submit activity
+  - owner can approve activity to give tokens to fans
+- proposal
+  - users can vote on proposals
 
 ## Problem 3
 
