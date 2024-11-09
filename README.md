@@ -185,7 +185,28 @@ contract SimpleStorage {
 ]
 ```
 
+### Dune SQL queries
 
+- will not appear in the final exam
+- first step is to find the table name, e.g. **ethereum.transactions**
+
+  ```txt
+  select block_time from  ethereum.transactions LIMIT 3
+  ```
+
+- when you encounter errors during the query, you can look at the suggestions for position i.
+- dashboard
+  ```sql
+  select  DATE_TRUNC('day', time ) as dt, count(*)as num_blocks
+  from ethereum .blocks
+  where time>=(DATE_TRUNC('day',CURRENT_TIMESTAMP)-INTERVAL '90' day )
+  and time <=DATE_TRUNC('day',CURRENT_TIMESTAMP)
+  group by 1 
+  order by 1;
+  ```
+  - The COUNT() function returns the number of rows that matches a specified criterion.
+  - the where clause limits the result to the most recent 90 days, and no later than today
+  - grooup by 1 is to group by the first element of num_blocks, which is DATE_TRUNC('day', time )
 
 ### ERC20 tokens
   
@@ -282,25 +303,17 @@ week8
 - it will generate boilerplate for a solidity file
 - final exam不考javascript
 
-## Dune SQL queries
+### attacks
 
-- will not appear in the final exam
-- first step is to find the table name, e.g. **ethereum.transactions**
+#### rentrancy attack
 
-  ```txt
-  select block_time from  ethereum.transactions LIMIT 3
-  ```
+- create a fallback function that contains a call to the withdraw function of the victim contract
 
-- when you encounter errors during the query, you can look at the suggestions for position i.
-- dashboard
-  ```sql
-  select  DATE_TRUNC('day', time ) as dt, count(*)as num_blocks
-  from ethereum .blocks
-  where time>=(DATE_TRUNC('day',CURRENT_TIMESTAMP)-INTERVAL '90' day )
-  and time <=DATE_TRUNC('day',CURRENT_TIMESTAMP)
-  group by 1 
-  order by 1;
-  ```
-  - The COUNT() function returns the number of rows that matches a specified criterion.
-  - the where clause limits the result to the most recent 90 days, and no later than today
-  - grooup by 1 is to group by the first element of num_blocks, which is DATE_TRUNC('day', time )
+#### Transaction ordering change
+
+- mine the setprice block before buy block
+
+#### self destruct
+
+- address(this).balance is vulnerable
+- selfdestruct is depricated

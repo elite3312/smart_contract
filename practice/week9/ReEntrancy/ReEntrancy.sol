@@ -42,7 +42,7 @@ contract EtherStore {
         (bool sent,) = msg.sender.call{value: bal}("");
         require(sent, "Failed to send Ether");
 
-        balances[msg.sender] = 0;
+        balances[msg.sender] = 0;//if we move this line before the sender.call, we can prevent the attack
     }
 
     // Helper function to check the balance of this contract

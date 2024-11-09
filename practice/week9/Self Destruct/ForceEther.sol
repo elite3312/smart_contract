@@ -24,7 +24,7 @@ contract EtherGame {
     function deposit() public payable {
         require(msg.value == 1 ether, "You can only send 1 Ether");
 
-        uint256 balance = address(this).balance;
+        uint256 balance = address(this).balance;//this code is vulnerable to self destruct attack
         require(balance <= targetAmount, "Game is over");
 
         if (balance == targetAmount) {
@@ -53,6 +53,6 @@ contract Attack {
 
         // cast address to payable
         address payable addr = payable(address(etherGame));
-        selfdestruct(addr);
+        selfdestruct(addr);//attacker cannot claim reward, but neither can normal users
     }
 }
