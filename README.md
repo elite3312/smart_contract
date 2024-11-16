@@ -49,7 +49,7 @@ remixd
 ### keywords
 
 - the **view** keyword is used when a function does not modify the state variables
-- a function that doesn't read or modify the variables of the state is called a **pure** function.
+- a function that doesn't read state variables is called a **pure** function.
 - storage, memory and calldata 
   - **Memory** is used to store temporary data that is needed during the execution of a function. 
   - **Calldata** is used to store function arguments that are passed in from an external caller. 
@@ -352,6 +352,11 @@ cyberscope
 - beacon chain:commitee chain
 - exam不考
 
+### vyyper
+
+- single file can only contain one contract
+
 ## exam
 
-- reentrancy attack會考
+- reentrancy attack
+- solidity轉vyyper
