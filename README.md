@@ -29,7 +29,7 @@ remixd
 
 ## project
 
-- go on etherscan to find examples for smart contracts
+- ~~go on etherscan to find examples for smart contracts~~
 
 ## solidity notes
 
@@ -321,3 +321,37 @@ week8
 
 - address(this).balance is vulnerable
 - selfdestruct is depricated
+
+#### scanners
+
+cyberscope
+
+##### slither
+
+- <https://github.com/crytic/slither>
+- python3 -m pip install slither-analyzer
+- solc-select install 0.8.2
+- solc-select use 0.8.2
+- slither practice/week9/ReEntrancy/ReEntrancy.sol 
+- use the gui in remixd to run slither
+  
+  ```txt
+  [Slither Analysis]: Compiler version is 0.8.26+commit.8a97fa7a
+  [Slither Analysis]: Compiler version is different from installed solc version
+  [Slither Analysis]: Setting 0.8.26 as current solc version using solc-select
+  [Slither Analysis]: Running Slither...
+  [Slither Analysis]: Analysis Completed!! 4 warnings found.
+  ```
+
+### sharding
+
+- we can randomzie the shard members to do some protection against shard takeover attack
+
+### ethereum 2.0
+
+- beacon chain:commitee chain
+- exam不考
+
+## exam
+
+- reentrancy attack會考
