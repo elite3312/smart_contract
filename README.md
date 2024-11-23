@@ -328,6 +328,7 @@ cyberscope
 
 ##### slither
 
+- **it is a tool for security checks**
 - <https://github.com/crytic/slither>
 - python3 -m pip install slither-analyzer
 - solc-select install 0.8.2
@@ -342,6 +343,7 @@ cyberscope
   [Slither Analysis]: Running Slither...
   [Slither Analysis]: Analysis Completed!! 4 warnings found.
   ```
+- slither cannot detect overflow or underflow!
 
 ### sharding
 
@@ -356,7 +358,65 @@ cyberscope
 
 - single file can only contain one contract
 
+### rust
+
+- can use in solona playground in remix
+- rust won't be covered in the exam
+- in vyyper we must declare scope
+- modules are like namespaces
+- macros is just like modifiers
+- trait is like the inferface
+
+### hyper ledger fabric
+- it provides the pros of the public blockchain, while retaining privacy for the users in the blockchain
+  - e.g. help protect patient's privacy in medical records
+  - or to help improve transparency in the supply chain, and enforce non-repudiation
+  - or ensure two parties write the same agreement
+    - in this case, the document itself is not stored on the blockchain, but again on an IPFS
+  - world state is the current state
+  - each peers needs a certificate to endorse the aggreement
+- in this private blockchain, there is not non-deterministic ordering of mined blocks. The ordering peer will be the judge.
+- to ensure the privacy during an endorsement, a secure channel is provided for a particular party
+- some consensus algorithms are used here, like raft, kafka etc
+  - kafka: one leader, multiple followers
+- zero knowlede proof:
+  - proof something, but do not disclose all the info to others
+  - LEO is a programming language for this task
+
+### LLM
+
+- claude is good
+- again, the prompt is **really** important!
+- you can have it name varaibles in a certain way
+- also can include security specs
+
+- local llms can protect sensitive data
+  - can use finetuning to improve local LLM
+- a hugging face LLM is provided
+
 ## exam
 
 - reentrancy attack
 - solidity轉vyyper
+
+## project
+
+Hi All
+
+Your Project submission deadline is 8 Dec.
+What you need to do:
+
+1. Implement the smart contract in solidity 
+2. Write a test case to test the functionality 
+3. Check the security flaw of the smart contract using tools like Slither.
+4. Deploy at Testnet and verify it on etherscan 
+
+Then provide the following :
+
+1. Code File
+2. Deployed contract Address
+3. Test case file
+4. Audit Report of the smart contract (result produced by tools like Slither.) Report much be in the formate. File attached 
+
+If you have any questions, please let me know. 
+
