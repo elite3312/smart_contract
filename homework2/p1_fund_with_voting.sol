@@ -10,12 +10,12 @@ contract DecentralizedCharityFund {
         bool finalized;
     }
 
-    address public owner;//owner of contract
-    uint256 public totalVotingPower;//the sum of money in the fund
-    uint256 public requestCount;//the number of requested projects
-    mapping(address => uint256) public votingPower;//maps user address to their voting power
-    mapping(uint256 => FundingRequest) public fundingRequests;//a list of projects
-    mapping(uint256 => mapping(address => bool)) public votes;//maps project to voters and their vote on it
+    address public owner; //owner of contract
+    uint256 public totalVotingPower; //the sum of money in the fund
+    uint256 public requestCount; //the number of requested projects
+    mapping(address => uint256) public votingPower; //maps user address to their voting power
+    mapping(uint256 => FundingRequest) public fundingRequests; //a list of projects
+    mapping(uint256 => mapping(address => bool)) public votes; //maps project to voters and their vote on it
 
     /*these are for keeping track of history*/
     address[] public fundedProjects;
@@ -24,19 +24,28 @@ contract DecentralizedCharityFund {
 
     /*these are for logging*/
     event DonationReceived(address indexed donor, uint256 amount);
-    event FundingRequestSubmitted(uint256 indexed requestId, address indexed projectAddress, uint256 requestedAmount, string projectDescription);
+    event FundingRequestSubmitted(
+        uint256 indexed requestId,
+        address indexed projectAddress,
+        uint256 requestedAmount,
+        string projectDescription
+    );
     event VoteCast(address indexed voter, uint256 indexed requestId);
-    event RequestFinalized(uint256 indexed requestId, address indexed projectAddress, uint256 amount);
-
-
+    event RequestFinalized(
+        uint256 indexed requestId,
+        address indexed projectAddress,
+        uint256 amount
+    );
 
     constructor() {
         owner = msg.sender;
     }
+
     modifier onlyOwner() {
         require(msg.sender == owner, "Only owner can call this function");
         _;
     }
+
     function donate() external payable {
         /*msg.sender donates some money to the fund*/
         require(msg.value > 0, "Donation amount must be greater than zero");
@@ -45,9 +54,16 @@ contract DecentralizedCharityFund {
         emit DonationReceived(msg.sender, msg.value);
     }
 
-    function submitFundingRequest(address projectAddress, uint256 requestedAmount, string memory projectDescription) external  {
+    function submitFundingRequest(
+        address projectAddress,
+        uint256 requestedAmount,
+        string memory projectDescription
+    ) external {
         /*submits a project to be funded*/
-        require(requestedAmount > 0, "Requested amount must be greater than zero");
+        require(
+            requestedAmount > 0,
+            "Requested amount must be greater than zero"
+        );
         fundingRequests[requestCount] = FundingRequest({
             projectAddress: projectAddress,
             requestedAmount: requestedAmount,
@@ -55,7 +71,12 @@ contract DecentralizedCharityFund {
             voteCount: 0,
             finalized: false
         });
-        emit FundingRequestSubmitted(requestCount, projectAddress, requestedAmount, projectDescription);
+        emit FundingRequestSubmitted(
+            requestCount,
+            projectAddress,
+            requestedAmount,
+            projectDescription
+        );
         requestCount++;
     }
 
@@ -63,34 +84,69 @@ contract DecentralizedCharityFund {
         /*a person votes on a project, where voting weight is proportionate to his donations*/
         require(votingPower[msg.sender] > 0, "No voting power");
         require(!votes[requestId][msg.sender], "Already voted");
-        require(!fundingRequests[requestId].finalized, "Request already finalized");
+        require(
+            !fundingRequests[requestId].finalized,
+            "Request already finalized"
+        );
 
+        // Deduct the user's voting power from their balance
+        uint256 userVotingPower = votingPower[msg.sender];
         votes[requestId][msg.sender] = true;
-        fundingRequests[requestId].voteCount += votingPower[msg.sender];
+        fundingRequests[requestId].voteCount += userVotingPower;
+
+        // Deduct the voting power after voting
+        votingPower[msg.sender] = 0; // Reset user's voting power to zero after voting
+
         emit VoteCast(msg.sender, requestId);
 
         return true;
     }
 
-    function finalizeRequest(uint256 requestId) external onlyOwner returns (bool) {
+    function finalizeRequest(uint256 requestId)
+        external
+        onlyOwner
+        returns (bool)
+    {
         /*finalizes a project, only owner can call*/
         FundingRequest storage request = fundingRequests[requestId];
         require(!request.finalized, "Request already finalized");
         require(request.voteCount > totalVotingPower / 2, "Not enough votes");
+        require(
+            address(this).balance >= request.requestedAmount,
+            "Insufficient contract balance"
+        );
 
         request.finalized = true;
-        payable(request.projectAddress).transfer(request.requestedAmount);
+
+        // Use call() instead of transfer()
+        (bool success, ) = request.projectAddress.call{
+            value: request.requestedAmount
+        }("");
+        require(success, "Transfer failed");
+
         /*push all records onto stacks for history*/
         fundedProjects.push(request.projectAddress);
         fundedAmounts.push(request.requestedAmount);
         projectDescriptions.push(request.projectDescription);
 
-        emit RequestFinalized(requestId, request.projectAddress, request.requestedAmount);
+        emit RequestFinalized(
+            requestId,
+            request.projectAddress,
+            request.requestedAmount
+        );
 
         return true;
     }
 
-    function getFundingHistory() external view returns (address[] memory, uint256[] memory, string[] memory) {
+    function getFundingHistory()
+        external
+        view
+        returns (
+            address[] memory,
+            uint256[] memory,
+            string[] memory
+        )
+    {
         /*view history*/
         return (fundedProjects, fundedAmounts, projectDescriptions);
     }
