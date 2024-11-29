@@ -26,7 +26,7 @@ caller of HackMe, in this case Attack.
 */
 
 contract Lib {
-    address public owner;
+    address owner;
 
     function pwn() public {
         owner = msg.sender;

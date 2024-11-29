@@ -133,8 +133,8 @@ remixd
 
 ### ABI and bytecode
 
-The byte code is the binary representation of the contract.
-THe ABI is human readable text that represents the contract.
+The byte code is the binary representation of the contract interface with the outside.
+THe ABI is human readable text that represents the contract interface with the outside.
 
 For example:
 
@@ -306,6 +306,13 @@ week8
 - in remix, there is a unit test plugin
 - it will generate boilerplate for a solidity file
 - final exam不考javascript
+- 需要註記以下
+  
+  ```txt
+  /// #sender: account-1
+  /// #value: 100
+  Assert.equal(msg.value, 100, 'value should be 100');
+  ```
 
 ### attacks
 
@@ -420,3 +427,90 @@ Then provide the following :
 
 If you have any questions, please let me know. 
 
+## exam review
+
+16. private vs public
+  private: only own contract can read it
+
+17. private variables can still be revaled given it is on the blockchain, or by delegate calls
+  we verified this with an example
+
+18. How to enforce privacy in blockchains?
+  private chains
+
+30. 4 visibilties
+  private: **the private variables in the parent contract cannot be viewed or used by the child**
+  internal:its like protected in cpp, can be viewed by children
+31. require
+32. ABI
+  ABI only captures the inferface between the contract and the outside
+43. Metamask, Binance
+49. enum saves gas
+56. is the array out of bounds error 
+67. variable ordering in solidity
+
+- Vyyper
+  - **this in python** is self
+- integer overflow
+  - only think about this for compilers before verison 8
+- block.timestamp can be controlled by the miner
+- dune 不考!!!
+- clones
+  
+  ```sol
+  interface IImplementation {
+      function initialize(address) external;
+  }
+
+  contract Factory {
+      address public implementation = 0x...;
+
+      // an user calls this function to make a new contract (clone)
+      function createNewContract() public {
+          address newcontract = Clones.clone(implementation);
+          IImplementation(newcontract).initialize(msg.sender);
+      }
+
+      ...
+  }
+  ```
+
+- SHA-256 is used in the the merkle tree
+- fallback is the cheapest unnamed function
+- pure vs view
+  - pure: not reading state var
+  - view: only read state var
+- abstract parent
+  - cannot be compiled just by itself
+- can you override the modifier?
+  - yes
+
+    ```sol
+    pragma solidity ^0.4.15;
+
+    contract A {
+        modifier only (uint test) {
+            require(test > 5);
+            _;
+        }
+        function test(uint test) public only(test) returns(uint) {
+            return addSome(test);
+        }
+        function addSome(uint number) internal returns(uint) {
+            return number + 5;
+        }
+    }
+
+    contract B is A {
+        modifier only (uint test) {
+            require(test < 10);
+            _;
+        }
+        function test(uint test) public only(test) returns(uint) {
+            return super.test(test);
+        }
+        function addSome(uint number) internal returns(uint) {
+            return number + 10;
+        }
+    }
+    ```

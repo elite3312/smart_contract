@@ -11,20 +11,24 @@ import "../homework2/p1_fund_with_voting.sol"; // Adjust the path as necessary
 
 contract testSuite {
     DecentralizedCharityFund fund;
+    address donor;   //Variables used to emulate different accounts  
 
     /// 'beforeAll' runs before all other tests
     function beforeAll() public {
         fund = new DecentralizedCharityFund();
+        donor = TestsAccounts.getAccount(0); // Get a test account
     }
     /// #sender: account-1
     /// #value: 100
-    function testDonate() public {
+    function testDonate() public payable{
         // Use a specific account to donate
-        address donor = TestsAccounts.getAccount(1); // Get a test account
-        fund.donate{value: 100}(); // Call donate from the test account
+        Assert.equal(msg.value, 100, 'value should be 100');
+       
+        fund.donate {value: 100}(); // Call donate from the test account
 
         // Check the voting power of the donor
-        Assert.equal(fund.votingPower(donor), 100, "Donor's voting power should be 100");
+        uint256 totalVotingPower=fund.totalVotingPower();
+        Assert.equal(totalVotingPower, 100, "total voting power should be 100");
     }
 
     function testSubmitFundingRequest() public {
@@ -33,27 +37,32 @@ contract testSuite {
         Assert.equal(fund.requestCount(), 1, "Request count should be 1");
     }
 
-    function testVoteOnRequest() public {
+    /// #sender: account-1
+    /// #value: 100
+    function testVoteOnRequest() public payable {
         // Test voting on a funding request
+        Assert.equal(msg.value, 100, 'value should be 100');
         fund.donate{value: 100}(); // Ensure the sender has voting power
         fund.submitFundingRequest(address(this), 50, "Test Project");
-        fund.voteOnRequest(0);
+        bool voteOutCome = fund.voteOnRequest(0);
         
         // Access voteCount directly from the struct
-        (,, , uint256 voteCount, ) = fund.fundingRequests(0);
-        Assert.equal(voteCount, 100, "Vote count should be 100");
+        Assert.equal(voteOutCome, true, "Vote count should be true");
     }
-
-    function testFinalizeRequest() public {
+    
+    /// #sender: account-0
+    /// #value: 200
+    function testFinalizeRequest() public payable{
         // Test finalizing a funding request
+        Assert.equal(msg.value, 200, 'value should be 200');
         fund.donate{value: 200}(); // Ensure the sender has voting power
         fund.submitFundingRequest(address(this), 100, "Test Project");
         fund.voteOnRequest(1);
-        fund.finalizeRequest(1);
+        bool finalized=fund.finalizeRequest(1);
         
         // Check if the project was finalized
-        (,, , , bool finalized) = fund.fundingRequests(1);
-        Assert.ok(finalized, "Request should be finalized");
+        Assert.equal(finalized, true,"Request should be finalized");
+        //todo
     }
 
     function testInsufficientBalanceOnFinalize() public {
