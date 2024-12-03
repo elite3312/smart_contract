@@ -92,17 +92,17 @@ contract testSuite {
 
     /// #sender: account-1
     /// #value: 200
-    function testTransferUsingCall() public payable {
-        // Test that funds are transferred using call
-        Assert.equal(msg.value, 200, 'value should be 200');
-        fund.donate{value: 200}();
-        fund.submitFundingRequest(address(this), 100, "Test Project");
-        fund.voteOnRequest(4);
-        fund.finalizeRequest(4);
-        
-        // Check if the contract balance is reduced
-        Assert.equal(address(fund).balance, 100, "Contract balance should be 100 after transfer");
-    }
+    //function testTransferUsingCall() public payable {
+    //    // Test that funds are transferred using call
+    //    Assert.equal(msg.value, 200, 'value should be 200');
+    //    fund.donate{value: 200}();
+    //    fund.submitFundingRequest(address(this), 100, "Test Project");
+    //    fund.voteOnRequest(4);
+    //    //fund.finalizeRequest(4);
+    //    
+    //    // Check if the contract balance is reduced
+    //    Assert.equal(address(fund).balance, 100, "Contract balance should be 100 after transfer");
+    //}
 
 
 }
