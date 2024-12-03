@@ -14,7 +14,26 @@ contract DecentralizedAuctionHouse is ERC721URIStorage {
     }
     
     mapping(uint256 => Auction) public auctions;
-
+    function getAuction(uint256 auctionId) public view returns (
+        address payable owner,
+        string memory itemName,
+        uint256 reservePrice,
+        uint256 endTime,
+        address highestBidder,
+        uint256 highestBid,
+        bool finalized
+    ) {
+    Auction storage auction = auctions[auctionId];
+    return (
+        auction.owner,
+        auction.itemName,
+        auction.reservePrice,
+        auction.endTime,
+        auction.highestBidder,
+        auction.highestBid,
+        auction.finalized
+    );
+}
     mapping(uint256 => mapping(address => uint256)) public bids; // auctionId => (bidder => bidAmount)
     address payable[]  public bidders; // auctionId => (bidder => bidAmount)
     uint256 public auctionCount;
@@ -67,7 +86,7 @@ contract DecentralizedAuctionHouse is ERC721URIStorage {
         );
     }
 
-    function placeBid(uint256 auctionId) public payable {
+    function placeBid(uint256 auctionId,address bidder) public payable {
         /*a bidder places bid, where the bid money is stored in the balance of the contract */
         uint256  bidAmount =msg.value;
         Auction storage auction = auctions[auctionId];
@@ -81,7 +100,7 @@ contract DecentralizedAuctionHouse is ERC721URIStorage {
             "Bid must meet reserve price"
         );
 
-        auction.highestBidder = msg.sender;
+        auction.highestBidder = bidder;//msg.sender;
         auction.highestBid = bidAmount;
         bids[auctionId][msg.sender] = bidAmount; // Store the new bid
 
@@ -97,7 +116,16 @@ contract DecentralizedAuctionHouse is ERC721URIStorage {
         }
 
         emit NewBid(auctionId, msg.sender, bidAmount);
+         // Debug statements
+        emit LogValueReceived(msg.value);
+        emit LogHighestBid(auctions[auctionId].highestBid);
+
+
     }
+    
+    // Debug events
+    event LogValueReceived(uint256 value);
+    event LogHighestBid(uint256 value);
 
     function withdrawBid(uint256 auctionId) public {
         /*a bidder can withdraw his money if he is not the current highest bidder */

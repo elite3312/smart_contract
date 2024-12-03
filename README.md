@@ -401,6 +401,12 @@ cyberscope
   - can use finetuning to improve local LLM
 - a hugging face LLM is provided
 
+## homework3
+
+### problem 1
+
+etherscan
+
 ## exam
 
 - reentrancy attack

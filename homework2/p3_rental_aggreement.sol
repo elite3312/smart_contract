@@ -26,13 +26,13 @@ contract RentalAgreementManagement {
         agreementCount = 0;
     }
 
-    function createAgreement(address payable _landlord,address _tenant, uint256 _rentAmountInGwei  , uint256 _duration_months) public {
+    function createAgreement(address payable _landlord,address _tenant, uint256 _rentAmount  , uint256 _duration_months) public {
         //creates an leasing aggreement between the landlord and the tenant
-        uint256 rentAmountInWei = _rentAmountInGwei * 1 gwei;
+     
         agreements[agreementCount] = Agreement({
             landlord: _landlord,
             tenant: _tenant,//another address
-            rentAmount: rentAmountInWei ,//monthly
+            rentAmount: _rentAmount ,//monthly
             startTime: block.timestamp,
             duration:_duration_months,
             remaining_duration:_duration_months,//counts down until the end of the lease
@@ -40,14 +40,14 @@ contract RentalAgreementManagement {
         });
         agreementCount++;
 
-        emit AgreementCreated(agreementCount, msg.sender, _tenant, rentAmountInWei, _duration_months);
+        emit AgreementCreated(agreementCount, msg.sender, _tenant, _rentAmount, _duration_months);
     }
 
     function payRent(uint256 _agreementId) public payable {
-        //only the tenant can pay, and must pay in exact amount in Gwei
+        //only the tenant can pay, and must pay in exact amount
         Agreement storage agreement = agreements[_agreementId];
         require(agreement.active, "Agreement is not active");
-        require(msg.sender == agreement.tenant, "Only tenant can pay rent");
+        //require(msg.sender == agreement.tenant, "Only tenant can pay rent");
         require(msg.value == agreement.rentAmount, "Incorrect rent amount");
         require(agreement.remaining_duration>=1,"Remaining Duration Must Be Greater Than Or Equal to 1 Month");
         //pay
@@ -83,4 +83,7 @@ contract RentalAgreementManagement {
             return "Terminated";
         }
     }
+    function getPaymentHistory(uint256 agreementId) public view returns (uint256[] memory) {
+    return paymentHistory[agreementId];
+}
 }
