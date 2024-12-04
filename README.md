@@ -407,6 +407,10 @@ cyberscope
 
 etherscan
 
+### problem 2
+
+add image for NFT
+
 ## exam
 
 - reentrancy attack

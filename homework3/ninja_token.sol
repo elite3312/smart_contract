@@ -42,4 +42,25 @@ contract NinjaToken is ERC20 {
     function transfer(address recipient, uint256 amount) public override whenNotPaused returns (bool) {
         return super.transfer(recipient, amount);
     }
+
+    // NinjaDual
+
+    /*
+    We introduce a feature called called NinjaDual, where you can enter the address of another person holding Ninja Tokens, 
+    and his balance is at least 1000 tokens, you two can go to a dual. As in, either you can grab half of his tokens, or 
+    he can have half of yours.
+    */
+    function ninjaDual(address opponent) public whenNotPaused {
+        require(balanceOf(msg.sender) >= 1000 * (10 ** uint256(decimals())), "You need at least 1000 tokens to duel");
+        require(balanceOf(opponent) >= 1000 * (10 ** uint256(decimals())), "Opponent needs at least 1000 tokens to duel");
+
+        uint256 halfTokens = balanceOf(opponent) / 2;
+        uint256 random = uint256(keccak256(abi.encodePacked(block.difficulty, blockhash(block.number - 1), msg.sender, opponent))) % 2;
+
+        if (random == 0) {
+            _transfer(opponent, msg.sender, halfTokens);
+        } else {
+            _transfer(msg.sender, opponent, halfTokens);
+        }
+    }
 }
