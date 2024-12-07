@@ -37,19 +37,16 @@ contract DecentralizedMedicalRecordsTest  is DecentralizedMedicalRecords{
     }
 
     // Test approving a claim and making a payment to the patient
-    /// #value: 1000000000000000000
-    /// #sender: account-1
+    /// #value: 3000000000000000000
+    /// #sender: account-2
     function testApproveClaimAndPayment() public payable{
         uploadMedicalRecord("Record1");
-        uint256 claimId = submitClaim("Claim1", "hash1", 1 ether);
+        uint256 claimId = submitClaim("Claim1", "hash1", 0.5 ether);
 
 
         // Approve the claim
-        //bool success = approveClaim(claimId);
-        //Assert.equal(success, true, "Claim approval should be successful.");
-
-     
-
+        bool success = approveClaim(claimId);
+        Assert.equal(success, true, "Claim approval should be successful.");
 
     }
 
@@ -57,7 +54,6 @@ contract DecentralizedMedicalRecordsTest  is DecentralizedMedicalRecords{
     function testGetPatientRecords() public {
         uploadMedicalRecord("Record1");
         string[] memory records = getPatientRecords();
-        //Assert.equal(records.length, 1, "There should be one record.");
         Assert.equal(records[0], "Record1", "The record data should match.");
     }
 
