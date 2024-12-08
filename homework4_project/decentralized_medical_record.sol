@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.26.0;
 
 contract DecentralizedMedicalRecords {
     struct MedicalRecord {
@@ -48,12 +48,11 @@ contract DecentralizedMedicalRecords {
         claimCounter++;
         return claimCounter - 1;
     }
-
-    // Insurance provider can approve claims and pay the patient
     function approveClaim(uint256 claimId) public payable returns (bool) {
         require(claimId < claimCounter, "Claim does not exist.");
         require(!claims[claimId].processed, "Claim already processed.");
-
+        require(!claims[claimId].approved, "Claim already approved.");
+        // Update state variables before making the external call
         claims[claimId].approved = true;
         claims[claimId].processed = true;
 
