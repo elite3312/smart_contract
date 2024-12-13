@@ -2,6 +2,10 @@
 pragma solidity ^0.8.26;
 
 contract MerkleProof {
+    function makeHash(string memory transaction) public pure returns (bytes32) {
+        // Implement the makeHash function to return the hash value of a transaction
+        return keccak256(abi.encodePacked(transaction));
+    }
     function verify(
         bytes32[] memory proof,/*proof array 是我需要用到的其他hash, array 的order 是從下到上*/
         bytes32 root,/*root is given*/
