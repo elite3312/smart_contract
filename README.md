@@ -436,6 +436,8 @@ If you have any questions, please let me know.
 
 ## exam review
 
+### basic problems
+
 16. private vs public
   private: only own contract can read it
 
@@ -457,15 +459,49 @@ If you have any questions, please let me know.
   - mapping ( uint => User )users ;
   
   ```txt
-  / / I f we need t o r a p i d l y lookup a user , we use t h e mapping
-  / / And i f we need t o i t e r a t e t h r o u g h u s e r s ,
-  / / we i t e r a t e t h r o u g h t h e u s e r I d s a r r a y ,
-  / / and f o r each u s e r I f we can
-  / / lookup t h e c o r r e c t u s e r i n t h e mapping
+  // If we need to rapidly lookup a user , we use the mapping
+  // And if we need to iterate through users ,
+  // we iterate through the userIds array ,
+  // and for each user If we can
+  // lookup the correct user in the mapping
   ```
   
 56. is the array out of bounds error 
 67. variable ordering in solidity
+71. bytesStr.length;
+92. keccak256(abi.encodePacked(a, b, c))
+
+### past exam
+
+#### question paper 5
+
+#### model question paper 
+
+- j. 
+
+  ```solidity
+  // SPDX-License-Identifier: MIT
+  pragma solidity ^0.8.26;
+
+  contract A {
+      // Several ways to initialize an array
+      uint256[] public arr;
+    
+      function get() public virtual view returns (uint256) {
+          return arr[0];
+      }
+
+  }
+  contract B is A {
+      function get() public override view returns (uint256) {
+          return arr[0];
+      }
+
+  }
+  ```
+- using Math for uint256;
+
+### other
 
 - Vyyper
   - **this in python** is self
@@ -475,7 +511,7 @@ If you have any questions, please let me know.
 - dune 不考!!!
 - clones
   
-  ```sol
+  ```solidity
   interface IImplementation {
       function initialize(address) external;
   }
@@ -503,7 +539,7 @@ If you have any questions, please let me know.
 - can you override the modifier?
   - yes
 
-    ```sol
+    ```solidity
     pragma solidity ^0.4.15;
 
     contract A {
