@@ -415,11 +415,6 @@ add image for NFT
 
 ## project
 
-Hi All
-
-Your Project submission deadline is 8 Dec.
-What you need to do:
-
 1. Implement the smart contract in solidity 
 2. Write a test case to test the functionality 
 3. Check the security flaw of the smart contract using tools like Slither.
@@ -534,8 +529,8 @@ If you have any questions, please let me know.
 - pure vs view
   - pure: not reading state var
   - view: only read state var
-- abstract parent
-  - cannot be compiled just by itself
+- abstract
+  - Contracts are marked as abstract when at least one of their functions lacks an implementation as in the following example (note that the function declaration header is terminated by ;):
 - can you override the modifier?
   - yes
 
