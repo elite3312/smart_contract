@@ -4,11 +4,8 @@
 
 ## bookmark
 
-- main 
-- lec 1012
-  - Import
-- lec1019
-  - erc20
+- review
+  - 13
 
 ## cmds
 
