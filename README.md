@@ -453,6 +453,17 @@ If you have any questions, please let me know.
   ABI only captures the inferface between the contract and the outside
 43. Metamask, Binance
 49. enum saves gas
+54. rapid lookup
+  - mapping ( uint => User )users ;
+  
+  ```txt
+  / / I f we need t o r a p i d l y lookup a user , we use t h e mapping
+  / / And i f we need t o i t e r a t e t h r o u g h u s e r s ,
+  / / we i t e r a t e t h r o u g h t h e u s e r I d s a r r a y ,
+  / / and f o r each u s e r I f we can
+  / / lookup t h e c o r r e c t u s e r i n t h e mapping
+  ```
+  
 56. is the array out of bounds error 
 67. variable ordering in solidity
 
